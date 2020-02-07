@@ -61,5 +61,4 @@ $res=array(
 	"yt"=>$yt
 );
 echo json_encode($res,JSON_PRETTY_PRINT);
-//echo "<div style=\"border:1px solid black;margin:10px;\"><h2>".$title."</h2><img src=\"".$img."\"><div>długość: ".$time."</div><div>".$count." wyświetleń</div><div><a href=\"".$url."\">".$url."</a></div></div>";
 ?>
