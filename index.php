@@ -17,9 +17,10 @@ $(document).ready(function() {
 	}});
 	$("#fm_id").change(function() {
 		$("#loader_station").removeClass("hide");
+		$("#window").html("");
+		$("#links").html("");
 		$.ajax({url: "ajax.php?id="+$(this).val(), success: function(result) {
-			$("#window").html("");
-			$("#links").html("<h6>"+result.music+"</h6><h4>Linki do streamów:</h4>");
+			$("#links").append("<h6>"+result.music+"</h6><h4>Linki do streamów:</h4>");
 			for (id in result.streams) $("#links").append("<div><a href=\""+result.streams[id]+"\" target=\"_blank\">"+result.streams[id]+"</a></div>");
 			for (id in result.yt) $("#window").append("<div><h2>"+result.yt[id].title+"</h2><img src=\""+result.yt[id].img+"\"><div>Długość: "+result.yt[id].time+"</div><div>"+result.yt[id].count+" wyświetleń</div><div><a href=\""+result.yt[id].url+"\" target=\"_blank\">"+result.yt[id].url+"</a></div>");
 		},error: function() {
