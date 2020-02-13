@@ -3,18 +3,14 @@ header('Content-type: application/json');
 class rmfon {
 	public $id;
 	public function __construct($id) {
+		if ($id<=0) die('Wrong ID');
 		$this->id=$id;
 	}
 	public function getStreamUrls() {
-		$code=file_get_contents("http://www.rmfon.pl/stacje/flash_aac_".$this->id.".xml.txt");
-		$code=explode("<playlistMp3>",$code);
-		$code=explode("</playlistMp3>",$code[1])[0];
-		$url=explode("<item_mp3 ads=\"1\">",$code);
-		$links=[];
-		for ($i=1;$i<count($url);$i++) {
-			$url[$i]=explode("</item_mp3>",$url[$i])[0];
-			$links[]=$url[$i];
-		}
+		$xml = new SimpleXMLElement(file_get_contents('http://www.rmfon.pl/stacje/flash_aac_'.$this->id.'.xml.txt'));
+		$list = $xml->playlistMp3->item_mp3;
+		$links = [];
+		for ($i=0; $i<count($list); $i++) $links[] = (string)$list[$i];
 		return $links;
 	}
 	public function getCurrentMusic() {
@@ -66,5 +62,5 @@ $res=array(
 	"music"=>$music["author"]." - ".$music["title"],
 	"yt"=>$yt
 );
-echo json_encode($res,JSON_PRETTY_PRINT);
+echo json_encode($res, JSON_PRETTY_PRINT);
 ?>
