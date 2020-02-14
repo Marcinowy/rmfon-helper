@@ -4,9 +4,9 @@ header('Content-type: application/json');
 
 include 'includes/autoload.php';
 
-$id=$_GET['id']*1;
-$rmfon=new rmfon($id);
-$music=$rmfon->getCurrentMusic();
+$id = $_GET['id'] * 1;
+$rmfon = new rmfon($id);
+$music = $rmfon->getCurrentMusic();
 
 $res=array(
 	'streams' => $rmfon->getStreamUrls(),
