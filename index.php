@@ -19,7 +19,9 @@ $(document).ready(function() {
 		$("#loader_station").removeClass("hide");
 		$("#window").html("");
 		$("#links").html("");
+        $("#audio").attr("src", "").addClass("d-none");
 		$.ajax({url: "ajax.php?id="+$(this).val(), success: function(result) {
+            $("#audio").attr("src", result.streams[0]).removeClass("d-none");
 			$("#links").append("<h6>"+result.music+"</h6><h4>Linki do streamów:</h4>");
 			for (id in result.streams) $("#links").append("<div><a href=\""+result.streams[id]+"\" target=\"_blank\">"+result.streams[id]+"</a></div>");
 			for (id in result.yt) $("#window").append("<div><h2>"+result.yt[id].title+"</h2><img src=\""+result.yt[id].img+"\"><div>Długość: "+result.yt[id].time+"</div><div>"+result.yt[id].count+" wyświetleń</div><div><a href=\""+result.yt[id].url+"\" target=\"_blank\">"+result.yt[id].url+"</a></div>");
@@ -32,12 +34,15 @@ $(document).ready(function() {
 });
 </script>
 <div class="center_div">
-	<form id="form">
+	<form id="form" class="mb-0">
 		<div class="form-group"><h1>Rmf on</h1></div>
 		<div class="form-group" id="loader_list"><svg class="circle-loader" width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="15"></svg></div>
 		<div class="form-group"><select id="fm_id" class="hide form-control"><option value="0">Wybierz radio</option></select></div>
 		<div class="form-group hide" id="loader_station"><svg class="circle-loader" width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="15"></svg></div>
-			<div class="form-group" id="links"></div>
+        <div class="text-center">
+            <audio autoplay="true" id="audio" class="d-none" controls></audio>
+        </div>
+		<div class="form-group mt-3 mb-0" id="links"></div>
 	</form>
 </div>
 <div id="window"></div>
