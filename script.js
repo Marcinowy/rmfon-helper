@@ -1,11 +1,10 @@
-var add = (station) => {
-    $("#fm_id").append(`<option value="${station.id}">${station.name}</option>`);
-}
 $(function() {
     $.ajax({
         url: "list.php",
         success: result => {
-            result.forEach(add);
+            result.forEach((station) => {
+                $("#fm_id").append(`<option value="${station.id}">${station.name}</option>`);
+            });
             $("#loader_list").addClass("hide");
             $("#fm_id").removeClass("hide");
         },
