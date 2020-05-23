@@ -4,15 +4,23 @@ header('Content-type: application/json');
 
 include 'includes/autoload.php';
 
-$id = $_GET['id'] * 1;
-$rmfon = new rmfon($id);
-$music = $rmfon->getCurrentMusic();
+$id = $_GET['id'];
+try {
+    $rmfon = new rmfon($id);
+    $music = $rmfon->getCurrentMusic();
+    $yt = (new youtube())->getVideos($music['author'] . ' ' . $music['title']);
+} catch (Exception $e) {
+    echo json_encode([
+        'success' => false,
+        'error' => $e->getMessage(),
+    ], JSON_PRETTY_PRINT);
+    exit;
+}
 
-$res=array(
-	'streams' => $rmfon->getStreamUrls(),
-	'music' => $music['author'] . ' - ' . $music['title'],
-	'yt' => (new youtube())->getVideos($music['author'] . ' ' . $music['title'])
-);
-
-echo json_encode($res, JSON_PRETTY_PRINT);
+echo json_encode([
+    'success' => true,
+    'streams' => $rmfon->getStreamUrls(),
+    'music' => $music['author'] . ' - ' . $music['title'],
+    'yt' => $yt,
+], JSON_PRETTY_PRINT);
 ?>
